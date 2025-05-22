@@ -1,24 +1,24 @@
--- Load Orion Library
+repeat wait() until game:IsLoaded()
+repeat wait() until game.Players.LocalPlayer
+
+-- Your OrionLib script starts here
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 
--- Create Orion Window
 local Window = OrionLib:MakeWindow({
     Name = "Dead Rails💔",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "ZephyraConfig",
     IntroEnabled = true,
-    IntroText = "Zephrya | Dead Rails💔"
+    IntroText = "Zephrya  |  Dead Rails💔"
 })
 
--- Create Main Tab
 local MainTab = Window:MakeTab({
     Name = "Main",
     Icon = "rbxassetid://131308467774889",
     PremiumOnly = false
 })
 
--- Add Test Button
 MainTab:AddButton({
     Name = "Test Button",
     Callback = function()
