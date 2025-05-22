@@ -8,7 +8,7 @@ local Window = OrionLib:MakeWindow({
     SaveConfig = true,
     ConfigFolder = "ZephyraConfig",
     IntroEnabled = true,
-    IntroText = "Zephrya  |  Dead Rails💔"
+    IntroText = "Zephrya | Dead Rails💔"
 })
 
 -- Create Main Tab
