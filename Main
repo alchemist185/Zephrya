@@ -1,37 +1,29 @@
-
+-- Zephrya Minimal Neon GUI
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
--- Destroy old UI if exists
 if PlayerGui:FindFirstChild("ZephryaUI") then
     PlayerGui.ZephryaUI:Destroy()
 end
 
--- UI Container
 local ScreenGui = Instance.new("ScreenGui", PlayerGui)
 ScreenGui.Name = "ZephryaUI"
 ScreenGui.ResetOnSpawn = false
 
--- Blur Background
-local Blur = Instance.new("BlurEffect")
+local Blur = Instance.new("BlurEffect", game.Lighting)
 Blur.Size = 12
-Blur.Parent = game.Lighting
 
--- Main Frame
+-- Main GUI
 local Main = Instance.new("Frame", ScreenGui)
-Main.Name = "Main"
-Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Main.BackgroundTransparency = 0.1
 Main.Size = UDim2.new(0, 400, 0, 260)
-Main.Position = UDim2.new(0.3, 0, 0.3, 0)
-Main.AnchorPoint = Vector2.new(0.5, 0.5)
-Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.5, -200, 0.5, -130)
+Main.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+Main.BackgroundTransparency = 0.05
 Main.Active = true
 Main.Draggable = true
-
--- UICorner
+Main.BorderSizePixel = 0
 local Corner = Instance.new("UICorner", Main)
 Corner.CornerRadius = UDim.new(0, 16)
 
@@ -46,44 +38,41 @@ Logo.BackgroundTransparency = 1
 local Title = Instance.new("TextLabel", Main)
 Title.Text = "Zephrya"
 Title.Font = Enum.Font.GothamBold
-Title.TextColor3 = Color3.fromRGB(90, 90, 90)
+Title.TextColor3 = Color3.fromRGB(190, 240, 255)
 Title.TextSize = 28
 Title.BackgroundTransparency = 1
 Title.Position = UDim2.new(0, 65, 0, 15)
 Title.Size = UDim2.new(1, -80, 0, 30)
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
--- Minimize Button [-]
+-- Minimize
 local Minimize = Instance.new("TextButton", Main)
 Minimize.Text = "-"
 Minimize.Size = UDim2.new(0, 30, 0, 30)
 Minimize.Position = UDim2.new(1, -70, 0, 10)
-Minimize.AnchorPoint = Vector2.new(0, 0)
 Minimize.Font = Enum.Font.GothamBold
 Minimize.TextSize = 20
-Minimize.TextColor3 = Color3.fromRGB(60, 60, 60)
+Minimize.TextColor3 = Color3.fromRGB(0, 255, 255)
 Minimize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", Minimize)
 
--- Close Button [x]
+-- Close
 local Close = Instance.new("TextButton", Main)
 Close.Text = "x"
 Close.Size = UDim2.new(0, 30, 0, 30)
 Close.Position = UDim2.new(1, -35, 0, 10)
-Close.AnchorPoint = Vector2.new(0, 0)
 Close.Font = Enum.Font.GothamBold
 Close.TextSize = 20
-Close.TextColor3 = Color3.fromRGB(255, 50, 50)
+Close.TextColor3 = Color3.fromRGB(255, 80, 80)
 Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", Close)
 
--- Body Container
+-- Body
 local Body = Instance.new("Frame", Main)
 Body.Size = UDim2.new(1, -20, 1, -70)
 Body.Position = UDim2.new(0, 10, 0, 60)
 Body.BackgroundTransparency = 1
 
--- Test Button
 local TestBtn = Instance.new("TextButton", Body)
 TestBtn.Size = UDim2.new(1, 0, 0, 40)
 TestBtn.Position = UDim2.new(0, 0, 0, 0)
@@ -91,10 +80,10 @@ TestBtn.Text = "Test Button"
 TestBtn.Font = Enum.Font.Gotham
 TestBtn.TextSize = 16
 TestBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-TestBtn.BackgroundColor3 = Color3.fromRGB(90, 120, 255)
+TestBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
 Instance.new("UICorner", TestBtn)
 
--- Notification Label
+-- Notification
 local Notify = Instance.new("TextLabel", Main)
 Notify.Visible = false
 Notify.Size = UDim2.new(1, -40, 0, 30)
@@ -107,7 +96,6 @@ Notify.Text = ""
 Notify.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Instance.new("UICorner", Notify)
 
--- Button Callbacks
 TestBtn.MouseButton1Click:Connect(function()
     Notify.Text = "You clicked da button"
     Notify.Visible = true
@@ -118,17 +106,28 @@ TestBtn.MouseButton1Click:Connect(function()
     Notify.Visible = false
 end)
 
-local minimized = false
+-- Minimized Frame
+local MiniBar = Instance.new("TextButton", ScreenGui)
+MiniBar.Text = "Zephrya  [+]"
+MiniBar.Font = Enum.Font.GothamBold
+MiniBar.TextSize = 20
+MiniBar.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
+MiniBar.TextColor3 = Color3.fromRGB(255, 255, 255)
+MiniBar.Size = UDim2.new(0, 160, 0, 40)
+MiniBar.Position = UDim2.new(0.5, -80, 0.5, -20)
+MiniBar.Visible = false
+MiniBar.Draggable = true
+MiniBar.Active = true
+Instance.new("UICorner", MiniBar)
+
+MiniBar.MouseButton1Click:Connect(function()
+    Main.Visible = true
+    MiniBar.Visible = false
+end)
+
 Minimize.MouseButton1Click:Connect(function()
-    if minimized then
-        Body.Visible = true
-        Minimize.Text = "-"
-        minimized = false
-    else
-        Body.Visible = false
-        Minimize.Text = "+"
-        minimized = true
-    end
+    Main.Visible = false
+    MiniBar.Visible = true
 end)
 
 Close.MouseButton1Click:Connect(function()
