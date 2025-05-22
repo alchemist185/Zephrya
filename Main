@@ -1,149 +1,160 @@
--- Zephrya Minimal Neon GUI
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local LocalPlayer = Players.LocalPlayer
-local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+repeat wait() until game:IsLoaded()
+repeat wait() until game.Players.LocalPlayer
 
-if PlayerGui:FindFirstChild("ZephryaUI") then
-    PlayerGui.ZephryaUI:Destroy()
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local gui = player:WaitForChild("PlayerGui")
+
+-- Clean up old GUI if exists
+if gui:FindFirstChild("ZephryaUI") then
+    gui.ZephryaUI:Destroy()
 end
 
-local ScreenGui = Instance.new("ScreenGui", PlayerGui)
+-- GUI Setup
+local ScreenGui = Instance.new("ScreenGui", gui)
 ScreenGui.Name = "ZephryaUI"
 ScreenGui.ResetOnSpawn = false
 
-local Blur = Instance.new("BlurEffect", game.Lighting)
-Blur.Size = 12
+-- Blur
+local blur = Instance.new("BlurEffect", game.Lighting)
+blur.Size = 15
 
--- Main GUI
+-- Main Frame
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 400, 0, 260)
-Main.Position = UDim2.new(0.5, -200, 0.5, -130)
-Main.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
-Main.BackgroundTransparency = 0.05
+Main.Size = UDim2.new(0, 420, 0, 270)
+Main.Position = UDim2.new(0.5, -210, 0.5, -135)
+Main.BackgroundColor3 = Color3.fromRGB(10, 30, 60)
+Main.BackgroundTransparency = 0
+Main.BorderSizePixel = 0
+Main.Visible = false
 Main.Active = true
 Main.Draggable = true
-Main.BorderSizePixel = 0
-local Corner = Instance.new("UICorner", Main)
-Corner.CornerRadius = UDim.new(0, 16)
 
--- Logo
-local Logo = Instance.new("ImageLabel", Main)
-Logo.Image = "rbxassetid://131308467774889"
-Logo.Size = UDim2.new(0, 48, 0, 48)
-Logo.Position = UDim2.new(0, 10, 0, 10)
-Logo.BackgroundTransparency = 1
+local corner = Instance.new("UICorner", Main)
+corner.CornerRadius = UDim.new(0, 14)
+
+-- Animate in
+wait(0.5)
+Main.Visible = true
+Main.BackgroundTransparency = 1
+TweenService:Create(Main, TweenInfo.new(0.4), {BackgroundTransparency = 0}):Play()
 
 -- Title
 local Title = Instance.new("TextLabel", Main)
 Title.Text = "Zephrya"
-Title.Font = Enum.Font.GothamBold
-Title.TextColor3 = Color3.fromRGB(190, 240, 255)
-Title.TextSize = 28
+Title.Size = UDim2.new(1, -60, 0, 40)
+Title.Position = UDim2.new(0, 60, 0, 10)
 Title.BackgroundTransparency = 1
-Title.Position = UDim2.new(0, 65, 0, 15)
-Title.Size = UDim2.new(1, -80, 0, 30)
+Title.TextColor3 = Color3.fromRGB(100, 200, 255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 26
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
--- Minimize
-local Minimize = Instance.new("TextButton", Main)
-Minimize.Text = "-"
-Minimize.Size = UDim2.new(0, 30, 0, 30)
-Minimize.Position = UDim2.new(1, -70, 0, 10)
-Minimize.Font = Enum.Font.GothamBold
-Minimize.TextSize = 20
-Minimize.TextColor3 = Color3.fromRGB(0, 255, 255)
-Minimize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Instance.new("UICorner", Minimize)
+-- Logo
+local Logo = Instance.new("ImageLabel", Main)
+Logo.Image = "rbxassetid://131308467774889"
+Logo.Size = UDim2.new(0, 40, 0, 40)
+Logo.Position = UDim2.new(0, 10, 0, 10)
+Logo.BackgroundTransparency = 1
 
--- Close
-local Close = Instance.new("TextButton", Main)
-Close.Text = "x"
-Close.Size = UDim2.new(0, 30, 0, 30)
-Close.Position = UDim2.new(1, -35, 0, 10)
-Close.Font = Enum.Font.GothamBold
-Close.TextSize = 20
-Close.TextColor3 = Color3.fromRGB(255, 80, 80)
-Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Instance.new("UICorner", Close)
+-- Minimize Button
+local MinBtn = Instance.new("TextButton", Main)
+MinBtn.Text = "-"
+MinBtn.Size = UDim2.new(0, 30, 0, 30)
+MinBtn.Position = UDim2.new(1, -70, 0, 10)
+MinBtn.Font = Enum.Font.GothamBold
+MinBtn.TextSize = 20
+MinBtn.TextColor3 = Color3.fromRGB(200, 255, 255)
+MinBtn.BackgroundColor3 = Color3.fromRGB(30, 60, 100)
+Instance.new("UICorner", MinBtn)
 
--- Body
-local Body = Instance.new("Frame", Main)
-Body.Size = UDim2.new(1, -20, 1, -70)
-Body.Position = UDim2.new(0, 10, 0, 60)
-Body.BackgroundTransparency = 1
+-- Close Button
+local CloseBtn = Instance.new("TextButton", Main)
+CloseBtn.Text = "x"
+CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+CloseBtn.Position = UDim2.new(1, -35, 0, 10)
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.TextSize = 20
+CloseBtn.TextColor3 = Color3.fromRGB(255, 80, 80)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(30, 60, 100)
+Instance.new("UICorner", CloseBtn)
 
-local TestBtn = Instance.new("TextButton", Body)
-TestBtn.Size = UDim2.new(1, 0, 0, 40)
-TestBtn.Position = UDim2.new(0, 0, 0, 0)
-TestBtn.Text = "Test Button"
-TestBtn.Font = Enum.Font.Gotham
-TestBtn.TextSize = 16
-TestBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-TestBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
-Instance.new("UICorner", TestBtn)
+-- Mini bar
+local Mini = Instance.new("TextButton", ScreenGui)
+Mini.Text = "Zephrya [+]"
+Mini.Size = UDim2.new(0, 160, 0, 40)
+Mini.Position = UDim2.new(0.5, -80, 0.5, -20)
+Mini.Font = Enum.Font.GothamBold
+Mini.TextSize = 18
+Mini.BackgroundColor3 = Color3.fromRGB(10, 30, 60)
+Mini.TextColor3 = Color3.fromRGB(100, 200, 255)
+Mini.Visible = false
+Mini.Active = true
+Mini.Draggable = true
+Instance.new("UICorner", Mini)
 
--- Notification
-local Notify = Instance.new("TextLabel", Main)
-Notify.Visible = false
-Notify.Size = UDim2.new(1, -40, 0, 30)
-Notify.Position = UDim2.new(0.5, 0, 1, -35)
-Notify.AnchorPoint = Vector2.new(0.5, 1)
-Notify.Font = Enum.Font.Gotham
-Notify.TextSize = 14
-Notify.TextColor3 = Color3.fromRGB(255, 255, 255)
-Notify.Text = ""
-Notify.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Instance.new("UICorner", Notify)
-
-TestBtn.MouseButton1Click:Connect(function()
-    Notify.Text = "You clicked da button"
-    Notify.Visible = true
-    TweenService:Create(Notify, TweenInfo.new(0.25), {BackgroundTransparency = 0.1}):Play()
-    wait(2)
-    TweenService:Create(Notify, TweenInfo.new(0.25), {BackgroundTransparency = 1}):Play()
-    wait(0.3)
-    Notify.Visible = false
+MinBtn.MouseButton1Click:Connect(function()
+	Main.Visible = false
+	Mini.Visible = true
 end)
 
--- Minimized Frame
-local MiniBar = Instance.new("TextButton", ScreenGui)
-MiniBar.Text = "Zephrya  [+]"
-MiniBar.Font = Enum.Font.GothamBold
-MiniBar.TextSize = 20
-MiniBar.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
-MiniBar.TextColor3 = Color3.fromRGB(255, 255, 255)
-MiniBar.Size = UDim2.new(0, 160, 0, 40)
-MiniBar.Position = UDim2.new(0.5, -80, 0.5, -20)
-MiniBar.Visible = false
-MiniBar.Draggable = true
-MiniBar.Active = true
-Instance.new("UICorner", MiniBar)
-
-MiniBar.MouseButton1Click:Connect(function()
-    Main.Visible = true
-    MiniBar.Visible = false
+Mini.MouseButton1Click:Connect(function()
+	Mini.Visible = false
+	Main.Visible = true
 end)
 
-Minimize.MouseButton1Click:Connect(function()
-    Main.Visible = false
-    MiniBar.Visible = true
-end)
+-- Confirm unload GUI
+local function showUnloadConfirm()
+    local ConfirmFrame = Instance.new("Frame", ScreenGui)
+    ConfirmFrame.Size = UDim2.new(0, 300, 0, 160)
+    ConfirmFrame.Position = UDim2.new(0.5, -150, 0.5, -80)
+    ConfirmFrame.BackgroundColor3 = Color3.fromRGB(20, 40, 70)
+    ConfirmFrame.BackgroundTransparency = 1
+    Instance.new("UICorner", ConfirmFrame)
 
-Close.MouseButton1Click:Connect(function()
-    local confirm = Instance.new("TextButton", ScreenGui)
-    confirm.Size = UDim2.new(0, 320, 0, 100)
-    confirm.Position = UDim2.new(0.5, -160, 0.5, -50)
-    confirm.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    confirm.Text = "This will unload the interface!\nAre you sure?"
-    confirm.Font = Enum.Font.Gotham
-    confirm.TextColor3 = Color3.fromRGB(255, 255, 255)
-    confirm.TextSize = 16
-    confirm.TextWrapped = true
-    Instance.new("UICorner", confirm)
+    TweenService:Create(ConfirmFrame, TweenInfo.new(0.3), {BackgroundTransparency = 0}):Play()
 
-    confirm.MouseButton1Click:Connect(function()
-        Blur:Destroy()
+    local Label = Instance.new("TextLabel", ConfirmFrame)
+    Label.Size = UDim2.new(1, -20, 0, 60)
+    Label.Position = UDim2.new(0, 10, 0, 10)
+    Label.Text = "This will unload the interface.\nAre you sure?"
+    Label.Font = Enum.Font.Gotham
+    Label.TextSize = 16
+    Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Label.TextWrapped = true
+    Label.TextYAlignment = Enum.TextYAlignment.Top
+    Label.BackgroundTransparency = 1
+
+    local Yes = Instance.new("TextButton", ConfirmFrame)
+    Yes.Text = "Yes"
+    Yes.Size = UDim2.new(0.45, 0, 0, 40)
+    Yes.Position = UDim2.new(0.05, 0, 1, -50)
+    Yes.Font = Enum.Font.GothamBold
+    Yes.TextSize = 18
+    Yes.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Yes.BackgroundColor3 = Color3.fromRGB(0, 200, 150)
+    Instance.new("UICorner", Yes)
+
+    local No = Instance.new("TextButton", ConfirmFrame)
+    No.Text = "No"
+    No.Size = UDim2.new(0.45, 0, 0, 40)
+    No.Position = UDim2.new(0.5, 0, 1, -50)
+    No.Font = Enum.Font.GothamBold
+    No.TextSize = 18
+    No.TextColor3 = Color3.fromRGB(255, 255, 255)
+    No.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
+    Instance.new("UICorner", No)
+
+    Yes.MouseButton1Click:Connect(function()
+        blur:Destroy()
         ScreenGui:Destroy()
     end)
-end)
+
+    No.MouseButton1Click:Connect(function()
+        TweenService:Create(ConfirmFrame, TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
+        wait(0.3)
+        ConfirmFrame:Destroy()
+    end)
+end
+
+CloseBtn.MouseButton1Click:Connect(showUnloadConfirm)
