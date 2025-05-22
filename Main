@@ -1,0 +1,33 @@
+-- Load Orion Library
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+
+-- Create Orion Window
+local Window = OrionLib:MakeWindow({
+    Name = "Dead Rails💔",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "ZephyraConfig",
+    IntroEnabled = true,
+    IntroText = "Zephrya  |  Dead Rails💔"
+})
+
+-- Create Main Tab
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://131308467774889",
+    PremiumOnly = false
+})
+
+-- Add Test Button
+MainTab:AddButton({
+    Name = "Test Button",
+    Callback = function()
+        print("you clicked da button")
+        OrionLib:MakeNotification({
+            Name = "Button Clicked",
+            Content = "you clicked da button",
+            Image = "rbxassetid://131308467774889",
+            Time = 3
+        })
+    end
+})
